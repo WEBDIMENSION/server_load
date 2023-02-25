@@ -28,8 +28,9 @@ services:
       - "5558:5558"
     volumes:
       - ./docker/locust/scenarios/${LOCUST_SCENARIO_FILE_NAME}:/scenarios/${LOCUST_SCENARIO_FILE_NAME}
-      - ./docker/locust/log:/locust/log
-    command: -f /scenarios/${LOCUST_SCENARIO_FILE_NAME} --master  --csv=/locust/log/${LOCUST_SCENARIO_FILE_NAME}
+      - ./docker/locust/log:/locust/log:rw
+    command: -f /scenarios/${LOCUST_SCENARIO_FILE_NAME} --master
+    #command: -f /scenarios/${LOCUST_SCENARIO_FILE_NAME} --master  --csv=/locust/log/${LOCUST_SCENARIO_FILE_NAME}
 
   locust-slave:
     image: locustio/locust
