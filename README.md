@@ -29,6 +29,7 @@ scaling
 
 ---
 
+<!--
 ## gatling
 
 [http://localhost:8082/](http://localhost:8089/)
@@ -37,3 +38,4 @@ docker-compose up -d
 docker-compose exec gatling gatling [-s TestClassName]
 docker-compose exec gatling gatling -s TestClassName
 ```
+-->

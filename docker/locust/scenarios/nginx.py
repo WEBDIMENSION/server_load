@@ -7,6 +7,6 @@ class UserBehavior(TaskSet):
         self.client.get("/")
 
 class WebsiteUser(HttpUser):
-    host = "http://localhost"
+    host = "http://develop.local:8000"
     tasks = {UserBehavior:1}
     wait_time = constant(0)

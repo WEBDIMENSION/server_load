@@ -20,27 +20,32 @@ services:
 
   locust-master:
     image: locustio/locust
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8081:8089"
       - "5557:5557"
       - "5558:5558"
     volumes:
-      - ./docker/locust/scenarios/locustfile.py:/locustfile.py
-    command: -f /locustfile.py --master
+      - ./docker/locust/scenarios/${LOCUST_SCENARIO_FILE_NAME}:/scenarios/${LOCUST_SCENARIO_FILE_NAME}
+      - ./docker/locust/log:/locust/log
+    command: -f /scenarios/${LOCUST_SCENARIO_FILE_NAME} --master  --csv=/locust/log/${LOCUST_SCENARIO_FILE_NAME}
 
   locust-slave:
     image: locustio/locust
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
-      - ./docker/locust/scenarios/locustfile.py:/locustfile.py
-    command: -f /locustfile.py  --worker --master-host locust-master
+      - ./docker/locust/scenarios/${LOCUST_SCENARIO_FILE_NAME}:/scenarios/${LOCUST_SCENARIO_FILE_NAME}
+    command: -f /scenarios/${LOCUST_SCENARIO_FILE_NAME}  --worker --master-host locust-master
 
-  gatling:
-    build: ./docker/gatling
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./gatling/scenario/:/workdir/gatling-charts-highcharts-bundle-3.3.1/user-files
-      - ./gatling/data:/workdir/gatling-charts-highcharts-bundle-3.3.1/results
-    command: /bin/sh
-    ports:
-      - "8082:8089"
+#  gatling:
+#    build: ./docker/gatling
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - ./gatling/scenario/:/workdir/gatling-charts-highcharts-bundle-3.3.1/user-files
+#      - ./gatling/data:/workdir/gatling-charts-highcharts-bundle-3.3.1/results
+#    command: /bin/sh
+#    ports:
+#      - "8082:8089"
