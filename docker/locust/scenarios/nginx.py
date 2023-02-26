@@ -2,11 +2,16 @@ from locust import HttpUser, TaskSet, task, between, constant
 
 class UserBehavior(TaskSet):
     @task(1)
-    def profile(self):
-        # self.client.get("/sample", verify=False)
+    def index(self):
         self.client.get("/")
+    @task(1)
+    def cate(self):
+        self.client.get("/cate/")
+    @task(1)
+    def not_found_404(self):
+        self.client.get("/unkown/")
 
 class WebsiteUser(HttpUser):
-    host = "http://develop.local:8000"
+    host = "http://develop.local:49182"
     tasks = {UserBehavior:1}
     wait_time = constant(0)
